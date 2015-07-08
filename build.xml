@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Wafflegrams" default="build">
+	<property name="environment" value="production" />
+	
+	<target name="init">
+		<mkdir dir="build" />
+	</target>
+	
+	<target name="build" depends="init" description="Build the project">
+		<copy todir="build">
+			<fileset dir="src">
+				<exclude name="public/style/**" />
+			</fileset>
+		</copy>
+		
+		<antcall target="build-compass" />
+	</target>
+	
+	<target name="build-compass">
+		<echo message="Starting Compass build..." level="info" />
+		
+		<condition property="compass.executable" value="compass.bat">
+			<os family="windows" />
+		</condition>
+		
+		<condition property="compass.executable" value="compass">
+			<os family="unix" />
+		</condition>
+		
+		<fail unless="compass.executable" message="The Compass executable has not been defined for this system." />
+		<echo message="Running ${compass.executable}" level="debug" />
+		
+		<exec executable="${compass.executable}" failonerror="true">
+			<arg value="compile" />
+			
+			<arg value="-c" />
+			<arg value="compass-config.rb" />
+			
+			<arg value="-e" />
+			<arg value="${environment}" />
+		</exec>
+		
+		<echo message="Compass build finished." level="info" />
+	</target>
+	
+	<target name="clean" description="Delete build output">
+		<delete dir="build" />
+	</target>
+</project>

@@ -1,0 +1,47 @@
+@import "compass/css3/flexbox";
+
+body {
+	@include display-flex;
+	@include flex-direction(column);
+	
+	height: 100%;
+}
+
+#site-header {
+	background-color: #332005;
+	padding: 0.4em;
+	
+	h1 {
+		font-family: helsinki, sans-serif;
+		font-size: 1.5em;
+		
+		span.version {
+			font-size: 0.5em;
+			opacity: 0.7;
+		}
+	}
+}
+
+#main-content {
+	@include flex(1);
+	
+	position: relative;
+}
+
+#site-footer {
+	background-color: #332005;
+	padding: 0.4em;
+	
+	small {
+		display: block;
+		font-size: 0.7em;
+		opacity: 0.5;
+		text-align: center;
+	}
+	
+	a {
+		border-bottom: 1px dotted #fff;
+		color: inherit;
+		text-decoration: none;
+	}
+}

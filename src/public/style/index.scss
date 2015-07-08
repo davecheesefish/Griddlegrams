@@ -1,0 +1,19 @@
+@import "compass/reset";
+@import "compass/css3/box-sizing";
+
+@import "_fonts";
+@import "_template";
+
+@import "game/_game";
+
+* {
+	@include box-sizing(border-box);
+}
+
+html {
+	background: #110a00;
+	color: #fff;
+	font-family: "action-man", arial, sans-serif;
+	font-size: 20px;
+	height: 100%;
+}
