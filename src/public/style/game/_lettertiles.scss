@@ -1,8 +1,8 @@
-@import "compass/css3/appearance";
+@import "compass/css3";
 
 #letter-grid {
 	font-size: 1.3em;
-	height: 13.2em;
+	height: 14.9em;
 	margin: 0 auto;
 	position: relative;
 	width: 14.9em;
@@ -14,6 +14,7 @@
 	background: #666;
 	border: none;
 	color: #111;
+	cursor: pointer;
 	font-family: helsinki, sans-serif;
 	font-size: 1em;
 	font-weight: bold;
@@ -28,9 +29,20 @@
 		border: none;
 	}
 	
-	@for $i from 0 through 10 {
+	&:before {
+		bottom: 1px;
+		display: block;
+		font-size: 0.5em;
+		line-height: 1;
+		opacity: 0.4;
+		position: absolute;
+		right: 1px;
+	}
+	
+	@for $i from 0 to 10 {
 		&.row-#{$i} {
 			top: $i * 1.5em;
+			z-index: $i+1;
 		}
 		
 		&.col-#{$i} {
@@ -41,33 +53,50 @@
 	$letter-color: #007080;
 	
 	&.points-1 {
-		//background: #eee;
 		background: tint($letter-color, 90);
+		
+		&:before {
+			content: "1";
+		}
 	}
 	
 	&.points-2 {
-		//background: #55aaee;
 		background: tint($letter-color, 80);
+		
+		&:before {
+			content: "2";
+		}
 	}
 	
 	&.points-3 {
-		//background: #e95;
 		background: tint($letter-color, 60);
+		
+		&:before {
+			content: "3";
+		}
 	}
 	
 	&.points-4 {
-		//background: #b97645;
 		background: tint($letter-color, 40);
+		
+		&:before {
+			content: "4";
+		}
 	}
 	
 	&.points-7 {
-		//background: #203055;
 		background: tint($letter-color, 20);
+		
+		&:before {
+			content: "7";
+		}
 	}
 	
 	&.points-10 {
-		//background: #9973c5;
-		//color: #eee;
 		background: $letter-color;
+		
+		&:before {
+			content: "10";
+		}
 	}
 }
