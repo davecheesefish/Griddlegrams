@@ -9,7 +9,9 @@
 		<header id="site-header">
 			<h1>Griddlegrams <span class="version">alpha</span></h1>
 		</header>
-		<article id="main-content"></article>
+		<article id="main-content">
+			<div class="loading">Loading...</div>
+		</article>
 		<footer id="site-footer">
 			<small>&copy;2015 <a href="http://davecheesefish.com/games">Davecheesefish Games</a> &amp; <a href="http://davidprior.media">David Prior Media</a></small>
 		</footer>
