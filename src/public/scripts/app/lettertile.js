@@ -24,11 +24,19 @@ define(['jquery', 'app/events', 'app/utils', 'app/letter', 'text!html/lettertile
 			return $element;
 		};
 		
+		this.getSelected = function(){
+			return selected;
+		};
+		
+		this.select = function(){
+			selected = true;
+			$element.addClass('selected');
+			Events.trigger('game.letterselected', [letter, this]);
+		};
+		
 		this.onClick = function(){
 			if ( ! selected) {
-				selected = true;
-				$element.addClass('selected');
-				Events.trigger('game.letterselected', [letter, this]);
+				Events.trigger('game.letterrequested', [this]);
 			}
 		};
 	};

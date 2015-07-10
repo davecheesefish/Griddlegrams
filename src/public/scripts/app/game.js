@@ -16,7 +16,7 @@ define(['jquery', 'app/events', 'app/utils', 'app/word', 'app/lettergrid', 'app/
 		// Privileged
 		this.initialize = function(){
 			letterGrid = new LetterGrid();
-			letterGrid.generate();
+			letterGrid.initialize();
 			
 			infoPanel = new InfoPanel();
 			infoPanel.initialize();

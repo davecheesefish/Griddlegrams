@@ -1,3 +1,5 @@
+'use strict';
+
 requirejs.config({
 	baseUrl: 'scripts/lib',
 	paths: {

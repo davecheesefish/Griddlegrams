@@ -1,4 +1,4 @@
-define(['jquery', 'app/lettertile', 'text!html/lettergrid.html'], function($, LetterTile, layout){
+define(['jquery', 'app/utils', 'app/events', 'app/lettertile', 'text!html/lettergrid.html'], function($, Utils, Events, LetterTile, layout){
 	
 	var LetterGrid = function(){
 		this.GRID_COLS = 10;
@@ -9,6 +9,11 @@ define(['jquery', 'app/lettertile', 'text!html/lettergrid.html'], function($, Le
 		var element;
 		
 		// Privileged
+		this.initialize = function(){
+			this.generate();
+			Events.on('game.letterrequested', Utils.bindContext(this.onLetterRequested, this));
+		};
+		
 		this.render = function(){
 			element = $(layout);
 			
@@ -19,6 +24,56 @@ define(['jquery', 'app/lettertile', 'text!html/lettergrid.html'], function($, Le
 			}
 			
 			return element;
+		};
+		
+		this.onLetterRequested = function(event, tile){
+			//Check for neighbouring selected tiles
+			//Gey x and y of tile
+			var found = false;
+			for (var y in this.letters){
+				for (var x in this.letters[y]){
+					if (this.letters[y][x] == tile){
+						found = true;
+						break;
+					}
+				}
+				
+				if (found)
+					{ break; }
+			}
+		
+			x = parseInt(x);
+			y = parseInt(y);
+			
+			if (
+				(this.letters[y][x - 1] != undefined && this.letters[y][x - 1].getSelected()) ||
+				(this.letters[y][x + 1] != undefined && this.letters[y][x + 1].getSelected()) ||
+				(this.letters[y - 1] != undefined && this.letters[y - 1][x].getSelected()) ||
+				(this.letters[y + 1] != undefined && this.letters[y + 1][x].getSelected())
+			){
+				tile.select();
+				return;
+			}
+			
+			//If no neighbouring selected tiles, see if this is the first letter.
+			var firstLetter = true;
+			for (var y in this.letters){
+				for (var x in this.letters[y]){
+					if (this.letters[y][x].getSelected())
+					{
+						firstLetter = false;
+						break;
+					}
+				}
+				if (firstLetter == false)
+					{ break; }
+			}
+			
+			if (firstLetter)
+			{
+				tile.select();
+				return;
+			}
 		};
 	};
 	
