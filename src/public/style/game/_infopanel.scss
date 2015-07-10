@@ -1,0 +1,29 @@
+@import "compass/css3";
+
+#info-panel {
+	margin: 0.5em auto;
+	position: relative;
+	width: 19.37em;
+}
+
+#timer {
+	background: #222;
+	height: 1.2em;
+	position: relative;
+	width: 100%;
+	
+	span {
+		background: #aaa;
+		display: block;
+		height: 100%;
+		line-height: 1.2em;
+		width: 0%;
+	}
+}
+
+#current-word {
+	.points {
+		display: block;
+		float: right;
+	}
+}

@@ -10,6 +10,7 @@ requirejs.config({
 requirejs(['jquery', 'app/game'], function($, Game){
 	$(document).ready(function(){
 		var game = new Game();
-		$('#main-content').append(game.render());
+		game.initialize();
+		$('#main-content').empty().append(game.render());
 	});
 });
