@@ -34,6 +34,11 @@ define(['jquery', 'app/events', 'app/utils', 'app/letter', 'text!html/lettertile
 			Events.trigger('game.letterselected', [letter, this]);
 		};
 		
+		this.deselect = function(){
+			selected = false;
+			$element.removeClass('selected');
+		};
+		
 		this.onClick = function(){
 			if ( ! selected) {
 				Events.trigger('game.letterrequested', [this]);

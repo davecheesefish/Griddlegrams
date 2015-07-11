@@ -1,4 +1,4 @@
-define(['jquery', 'app/events', 'app/utils', 'app/word', 'app/lettergrid', 'app/infopanel', 'text!html/game.html'], function($, Events, Utils, Word, LetterGrid, InfoPanel, layout){
+define(['jquery', 'app/events', 'app/utils', 'app/dictionary', 'app/word', 'app/lettergrid', 'app/infopanel', 'text!html/game.html'], function($, Events, Utils, Dictionary, Word, LetterGrid, InfoPanel, layout){
 	
 	var Game = function($element){
 		// Private
@@ -6,8 +6,9 @@ define(['jquery', 'app/events', 'app/utils', 'app/word', 'app/lettergrid', 'app/
 		var infoPanel = null;
 		
 		var timerInterval = null;
+		var score = 0;
 		var currentWord = null;
-		var currentWordScore = 0;
+		var acceptedWords = [];
 		
 		//Public
 		this.timeLimit = 300;
@@ -39,6 +40,8 @@ define(['jquery', 'app/events', 'app/utils', 'app/word', 'app/lettergrid', 'app/
 			);
 			
 			Events.on('game.letterselected', Utils.bindContext(this.onLetterSelected, this));
+			Events.on('game.wordsubmitrequested', Utils.bindContext(this.onWordSubmitRequested, this));
+			Events.on('game.wordclearrequested', Utils.bindContext(this.clearCurrentWord, this));
 		};
 		
 		this.render = function(){
@@ -50,6 +53,26 @@ define(['jquery', 'app/events', 'app/utils', 'app/word', 'app/lettergrid', 'app/
 		
 		this.clearCurrentWord = function(){
 			currentWord = new Word();
+			Events.trigger('game.wordcleared');
+		};
+		
+		this.acceptCurrentWord = function(){
+			score += currentWord.getPoints();
+			Events.trigger('game.scoreupdated', [currentWord.getPoints(), score]);
+			
+			acceptedWords.push(currentWord);
+			Events.trigger('game.wordaccepted', currentWord);
+			
+			this.clearCurrentWord();
+		};
+		
+		this.rejectCurrentWord = function(){
+			Events.trigger('game.wordrejected', currentWord);
+			this.clearCurrentWord();
+		};
+		
+		this.cancelCurrentWord = function(){
+			this.clearCurrentWord();
 			Events.trigger('game.wordcanceled');
 		};
 		
@@ -60,7 +83,15 @@ define(['jquery', 'app/events', 'app/utils', 'app/word', 'app/lettergrid', 'app/
 		
 		this.onLetterSelected = function(event, letter){
 			currentWord.addLetter(letter);
-			Events.trigger('game.wordupdated', [currentWord]);
+			Events.trigger('game.wordupdated', currentWord);
+		};
+		
+		this.onWordSubmitRequested = function(){
+			if (Dictionary.check(currentWord.toString())){
+				this.acceptCurrentWord();
+			} else {
+				this.rejectCurrentWord();
+			}
 		};
 	};
 	

@@ -12,6 +12,7 @@ define(['jquery', 'app/utils', 'app/events', 'app/lettertile', 'text!html/letter
 		this.initialize = function(){
 			this.generate();
 			Events.on('game.letterrequested', Utils.bindContext(this.onLetterRequested, this));
+			Events.on('game.wordcleared', Utils.bindContext(this.onWordCleared, this));
 		};
 		
 		this.render = function(){
@@ -41,9 +42,10 @@ define(['jquery', 'app/utils', 'app/events', 'app/lettertile', 'text!html/letter
 				if (found)
 					{ break; }
 			}
-		
-			x = parseInt(x);
-			y = parseInt(y);
+			
+			//Convert from strings
+			x = +x;
+			y = +y;
 			
 			if (
 				(this.letters[y][x - 1] != undefined && this.letters[y][x - 1].getSelected()) ||
@@ -73,6 +75,14 @@ define(['jquery', 'app/utils', 'app/events', 'app/lettertile', 'text!html/letter
 			{
 				tile.select();
 				return;
+			}
+		};
+		
+		this.onWordCleared = function(){
+			for (var y in this.letters){
+				for (var x in this.letters[y]){
+					this.letters[y][x].deselect();
+				}
 			}
 		};
 	};
