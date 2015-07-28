@@ -8,11 +8,12 @@ define(['jquery', 'app/events', 'app/utils', 'app/letter', 'text!html/lettertile
 		
 		// Privileged
 		this.initialize = function(){
+			selected = false;
 			letter = Letter.random();
 		};
 		
 		/**
-		 * Creates a DOM element for this tile and returns it. 
+		 * Creates a DOM element for this tile and returns it.
 		 */
 		this.render = function(){
 			$element = $(layout);
@@ -24,19 +25,36 @@ define(['jquery', 'app/events', 'app/utils', 'app/letter', 'text!html/lettertile
 			return $element;
 		};
 		
+		/**
+		 * Get whether this tile is currently selected or not.
+		 */
 		this.getSelected = function(){
 			return selected;
 		};
 		
+		/**
+		 * Mark this tile as selected.
+		 */
 		this.select = function(){
 			selected = true;
 			$element.addClass('selected');
 			Events.trigger('game.letterselected', [letter, this]);
 		};
 		
+		/**
+		 * Unmark this tile as selected.
+		 */
 		this.deselect = function(){
 			selected = false;
 			$element.removeClass('selected');
+		};
+		
+		/**
+		 * Replace this letter tile with a new one.
+		 */
+		this.replace = function(){
+			this.initialize();
+			$element.replaceWith(this.render());
 		};
 		
 		this.onClick = function(){

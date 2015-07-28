@@ -71,11 +71,6 @@ define(['jquery', 'app/events', 'app/utils', 'app/dictionary', 'app/word', 'app/
 			this.clearCurrentWord();
 		};
 		
-		this.cancelCurrentWord = function(){
-			this.clearCurrentWord();
-			Events.trigger('game.wordcanceled');
-		};
-		
 		this.onTimeTick = function(){
 			this.timeLeft = this.timeLeft - 1;
 			infoPanel.updateTimer(this.timeLeft, this.timeLimit);
